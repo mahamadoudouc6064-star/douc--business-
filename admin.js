@@ -100,7 +100,7 @@ document.addEventListener(
 // PRODUITS
 // =====================================================
 
-async function loadProducts() {
+async function loadcategories() {
 
     productsList.innerHTML = `
         <div class="loading">
