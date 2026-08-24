@@ -8,7 +8,7 @@ const SUPABASE_URL =
 
 // Mets ici ta clé Publishable/Anon Supabase
 const SUPABASE_KEY =
-    "TON_ANON_KEY";
+  sb_publishable_fYJOpPXAQcQOkVXmuGpoYw_fnt3WqVi
 
 const supabaseClient =
     window.supabase.createClient(
