@@ -10,43 +10,61 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
-async function testProducts() {
+async function testSupabase() {
 
-    console.log("Test Supabase...");
+    console.log("SUPABASE TEST");
 
-    const { data, error } =
+    // TEST CATEGORIES
+    const categories =
+        await supabaseClient
+            .from("categories")
+            .select("id,name")
+            .limit(10);
+
+    console.log(
+        "CATEGORIES :",
+        categories
+    );
+
+    // TEST PRODUCTS
+    const products =
         await supabaseClient
             .from("products")
             .select("id,name,price,stock")
             .limit(10);
 
-    if (error) {
+    console.log(
+        "PRODUCTS :",
+        products
+    );
 
-        console.error("ERREUR SUPABASE :", error);
+    const box =
+        document.getElementById("productsList");
 
-        document.getElementById("productsList").innerHTML = `
+    if (products.error) {
+
+        box.innerHTML = `
             <div class="empty">
                 ❌ Erreur produit
                 <br><br>
-                ${error.message}
+                ${products.error.message}
             </div>
         `;
 
         return;
     }
 
-    console.log("Produits :", data);
-
-    document.getElementById("productsList").innerHTML = `
+    box.innerHTML = `
         <div class="empty">
-            ✅ Connexion Supabase réussie
+            ✅ Connexion réussie
             <br><br>
-            ${data.length} produit(s) trouvé(s)
+            Produits trouvés :
+            ${products.data.length}
         </div>
     `;
 }
 
 document.addEventListener(
     "DOMContentLoaded",
-    testProducts
+    testSupabase
 );
