@@ -1,0 +1,13 @@
+{
+  "name": "douc-business",
+  "version": "3.0.0",
+  "description": "DOUC Business 3.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
+    "express": "^5.1.0"
+  }
+}
