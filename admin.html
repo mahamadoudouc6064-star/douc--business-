@@ -1,89 +1,260 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DOUC Business 3.0 — Administration</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="admin.css">
+    <title>
+        DOUC Business 3.0 — Administration
+    </title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     BARRE SUPERIEURE
+===================================================== -->
+
 <header class="topbar">
+
     <div class="brand">
-        <span>DOUC</span>
-        <small>BUSINESS 3.0</small>
+
+        <span>
+            DOUC
+        </span>
+
+        <small>
+            BUSINESS 3.0
+        </small>
+
     </div>
 
+
     <div class="admin-title">
+
         Tableau de bord
+
     </div>
+
 </header>
+
+
+
+<!-- =====================================================
+     TABLEAU DE BORD
+===================================================== -->
 
 <main class="dashboard">
 
+
+    <!-- =================================================
+         STATISTIQUES
+    ================================================== -->
+
     <section class="stats">
 
-        <div class="stat-card">
-            <span>Produits</span>
-            <strong id="totalProducts">0</strong>
-        </div>
 
         <div class="stat-card">
-            <span>Stock</span>
-            <strong id="totalStock">0</strong>
+
+            <span>
+                Produits
+            </span>
+
+            <strong id="totalProducts">
+                0
+            </strong>
+
         </div>
 
-        <div class="stat-card">
-            <span>Vedettes</span>
-            <strong id="totalFeatured">0</strong>
-        </div>
 
         <div class="stat-card">
-            <span>Commandes</span>
-            <strong id="totalOrders">0</strong>
+
+            <span>
+                Stock
+            </span>
+
+            <strong id="totalStock">
+                0
+            </strong>
+
         </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Vedettes
+            </span>
+
+            <strong id="totalFeatured">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Commandes
+            </span>
+
+            <strong id="totalOrders">
+                0
+            </strong>
+
+        </div>
+
 
     </section>
 
+
+
+    <!-- =================================================
+         AJOUTER UN PRODUIT
+    ================================================== -->
+
     <section class="panel">
 
+
         <div class="panel-header">
+
             <div>
-                <h2 id="formTitle">Ajouter un produit</h2>
-                <p>Gérez les produits de votre boutique.</p>
+
+                <h2 id="formTitle">
+                    Ajouter un produit
+                </h2>
+
+                <p>
+                    Gérez les produits de votre boutique.
+                </p>
+
             </div>
+
         </div>
+
+
+
+        <!-- FORMULAIRE -->
 
         <form id="productForm">
 
-            <input type="hidden" id="productId">
+
+            <!-- ID DU PRODUIT -->
+
+            <input
+                type="hidden"
+                id="productId"
+            >
+
+
+
+            <!-- GRILLE -->
 
             <div class="form-grid">
 
+
+                <!-- NOM -->
+
                 <div class="field">
-                    <label for="productName">Nom du produit</label>
+
+                    <label
+                        for="productName"
+                    >
+                        Nom du produit
+                    </label>
+
                     <input
                         id="productName"
                         type="text"
                         placeholder="Ex : T-shirt Premium"
                         required
                     >
+
                 </div>
 
+
+
+                <!-- CATEGORIE -->
+
                 <div class="field">
-                    <label for="productCategory">Catégorie</label>
-                    <select id="productCategory" required>
-                        <option value="">Sélectionner</option>
+
+                    <label
+                        for="productCategory"
+                    >
+                        Catégorie
+                    </label>
+
+
+                    <select
+                        id="productCategory"
+                        required
+                    >
+
+                        <option value="">
+                            Sélectionner une catégorie
+                        </option>
+
+
+                        <option value="1">
+                            Mode
+                        </option>
+
+
+                        <option value="2">
+                            Électronique
+                        </option>
+
+
+                        <option value="3">
+                            Maison
+                        </option>
+
+
+                        <option value="4">
+                            Beauté
+                        </option>
+
+
+                        <option value="5">
+                            Autres
+                        </option>
+
+
                     </select>
+
                 </div>
 
+
+
+                <!-- PRIX -->
+
                 <div class="field">
-                    <label for="productPrice">Prix (FCFA)</label>
+
+                    <label
+                        for="productPrice"
+                    >
+                        Prix (FCFA)
+                    </label>
+
                     <input
                         id="productPrice"
                         type="number"
@@ -91,20 +262,42 @@
                         placeholder="15000"
                         required
                     >
+
                 </div>
 
+
+
+                <!-- ANCIEN PRIX -->
+
                 <div class="field">
-                    <label for="productOldPrice">Ancien prix (FCFA)</label>
+
+                    <label
+                        for="productOldPrice"
+                    >
+                        Ancien prix (FCFA)
+                    </label>
+
                     <input
                         id="productOldPrice"
                         type="number"
                         min="0"
                         placeholder="20000"
                     >
+
                 </div>
 
+
+
+                <!-- STOCK -->
+
                 <div class="field">
-                    <label for="productStock">Stock</label>
+
+                    <label
+                        for="productStock"
+                    >
+                        Stock
+                    </label>
+
                     <input
                         id="productStock"
                         type="number"
@@ -112,68 +305,135 @@
                         value="0"
                         required
                     >
+
                 </div>
 
+
+
+                <!-- IMAGE -->
+
                 <div class="field">
-                    <label for="productImage">Image URL</label>
+
+                    <label
+                        for="productImage"
+                    >
+                        Image URL
+                    </label>
+
                     <input
                         id="productImage"
                         type="url"
                         placeholder="https://..."
                     >
+
                 </div>
+
 
             </div>
 
+
+
+            <!-- DESCRIPTION -->
+
             <div class="field">
-                <label for="productDescription">Description</label>
+
+                <label
+                    for="productDescription"
+                >
+                    Description
+                </label>
+
                 <textarea
                     id="productDescription"
                     placeholder="Description du produit..."
                 ></textarea>
+
             </div>
 
+
+
+            <!-- PRODUIT VEDETTE -->
+
             <div class="options">
+
                 <label>
+
                     <input
                         type="checkbox"
                         id="productFeatured"
                     >
+
                     Produit vedette ⭐
+
                 </label>
+
             </div>
 
+
+
+            <!-- BOUTONS -->
+
             <div class="form-actions">
+
 
                 <button
                     type="submit"
                     class="primary-btn"
                 >
+
                     💾 Enregistrer
+
                 </button>
+
+
 
                 <button
                     type="button"
                     id="cancelEdit"
                     class="secondary-btn hidden"
                 >
+
                     Annuler
+
                 </button>
 
+
             </div>
+
 
         </form>
 
     </section>
 
+
+
+    <!-- =================================================
+         LISTE DES PRODUITS
+    ================================================== -->
+
     <section class="panel">
 
-        <div class="panel-header products-header">
+
+        <div
+            class="panel-header products-header"
+        >
+
 
             <div>
-                <h2>Produits</h2>
-                <p>Tous les produits de votre boutique.</p>
+
+                <h2>
+                    Produits
+                </h2>
+
+                <p>
+                    Tous les produits de votre boutique.
+                </p>
+
             </div>
+
+
+
+            <!-- RECHERCHE -->
 
             <input
                 id="searchProducts"
@@ -181,24 +441,54 @@
                 placeholder="🔎 Rechercher..."
             >
 
+
         </div>
+
+
+
+        <!-- PRODUITS -->
 
         <div
             id="productsList"
             class="products-list"
         >
+
             <div class="loading">
+
                 Chargement...
+
             </div>
+
         </div>
+
 
     </section>
 
+
 </main>
 
-<div id="toast" class="toast"></div>
 
-<script src="admin.js"></script>
+
+<!-- =====================================================
+     MESSAGE TOAST
+===================================================== -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    src="admin.js"
+></script>
+
 
 </body>
+
 </html>
