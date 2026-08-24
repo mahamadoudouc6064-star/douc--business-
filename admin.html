@@ -1,164 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>DOUC Business 3.0 — Administration</title>
 
-    <title>
-        DOUC Business 3.0 — Administration
-    </title>
+    <link rel="stylesheet" href="admin.css">
 
-    <link
-        rel="stylesheet"
-        href="admin.css"
-    >
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-
 <body>
-
-
-<!-- =====================================================
-     BARRE SUPERIEURE
-===================================================== -->
 
 <header class="topbar">
 
     <div class="brand">
-
-        <span>
-            DOUC
-        </span>
-
-        <small>
-            BUSINESS 3.0
-        </small>
-
+        <span>DOUC</span>
+        <small>BUSINESS 3.0</small>
     </div>
 
-
     <div class="admin-title">
-
         Tableau de bord
-
     </div>
 
 </header>
 
 
-
-<!-- =====================================================
-     TABLEAU DE BORD
-===================================================== -->
-
 <main class="dashboard">
 
-
-    <!-- =================================================
-         STATISTIQUES
-    ================================================== -->
+    <!-- STATISTIQUES -->
 
     <section class="stats">
 
-
         <div class="stat-card">
-
-            <span>
-                Produits
-            </span>
-
-            <strong id="totalProducts">
-                0
-            </strong>
-
+            <span>Produits</span>
+            <strong id="totalProducts">0</strong>
         </div>
 
-
         <div class="stat-card">
-
-            <span>
-                Stock
-            </span>
-
-            <strong id="totalStock">
-                0
-            </strong>
-
+            <span>Stock</span>
+            <strong id="totalStock">0</strong>
         </div>
 
-
         <div class="stat-card">
-
-            <span>
-                Vedettes
-            </span>
-
-            <strong id="totalFeatured">
-                0
-            </strong>
-
+            <span>Vedettes</span>
+            <strong id="totalFeatured">0</strong>
         </div>
 
-
         <div class="stat-card">
-
-            <span>
-                Commandes
-            </span>
-
-            <strong id="totalOrders">
-                0
-            </strong>
-
+            <span>Commandes</span>
+            <strong id="totalOrders">0</strong>
         </div>
-
 
     </section>
 
 
-
-    <!-- =================================================
-         AJOUTER UN PRODUIT
-    ================================================== -->
+    <!-- AJOUT PRODUIT -->
 
     <section class="panel">
-
 
         <div class="panel-header">
 
             <div>
-
                 <h2 id="formTitle">
                     Ajouter un produit
                 </h2>
 
                 <p>
-                    Gérez les produits de votre boutique.
+                    Gérez les produits de votre boutique DOUC Business.
                 </p>
-
             </div>
 
         </div>
 
 
-
-        <!-- FORMULAIRE -->
-
         <form id="productForm">
-
-
-            <!-- ID DU PRODUIT -->
 
             <input
                 type="hidden"
@@ -166,19 +83,13 @@
             >
 
 
-
-            <!-- GRILLE -->
-
             <div class="form-grid">
-
 
                 <!-- NOM -->
 
                 <div class="field">
 
-                    <label
-                        for="productName"
-                    >
+                    <label for="productName">
                         Nom du produit
                     </label>
 
@@ -192,17 +103,13 @@
                 </div>
 
 
-
                 <!-- CATEGORIE -->
 
                 <div class="field">
 
-                    <label
-                        for="productCategory"
-                    >
+                    <label for="productCategory">
                         Catégorie
                     </label>
-
 
                     <select
                         id="productCategory"
@@ -213,45 +120,36 @@
                             Sélectionner une catégorie
                         </option>
 
-
                         <option value="1">
                             Mode
                         </option>
-
 
                         <option value="2">
                             Électronique
                         </option>
 
-
                         <option value="3">
                             Maison
                         </option>
-
 
                         <option value="4">
                             Beauté
                         </option>
 
-
                         <option value="5">
                             Autres
                         </option>
-
 
                     </select>
 
                 </div>
 
 
-
                 <!-- PRIX -->
 
                 <div class="field">
 
-                    <label
-                        for="productPrice"
-                    >
+                    <label for="productPrice">
                         Prix (FCFA)
                     </label>
 
@@ -266,14 +164,11 @@
                 </div>
 
 
-
                 <!-- ANCIEN PRIX -->
 
                 <div class="field">
 
-                    <label
-                        for="productOldPrice"
-                    >
+                    <label for="productOldPrice">
                         Ancien prix (FCFA)
                     </label>
 
@@ -287,14 +182,11 @@
                 </div>
 
 
-
                 <!-- STOCK -->
 
                 <div class="field">
 
-                    <label
-                        for="productStock"
-                    >
+                    <label for="productStock">
                         Stock
                     </label>
 
@@ -309,14 +201,11 @@
                 </div>
 
 
-
                 <!-- IMAGE -->
 
                 <div class="field">
 
-                    <label
-                        for="productImage"
-                    >
+                    <label for="productImage">
                         Image URL
                     </label>
 
@@ -328,18 +217,14 @@
 
                 </div>
 
-
             </div>
-
 
 
             <!-- DESCRIPTION -->
 
             <div class="field">
 
-                <label
-                    for="productDescription"
-                >
+                <label for="productDescription">
                     Description
                 </label>
 
@@ -351,8 +236,7 @@
             </div>
 
 
-
-            <!-- PRODUIT VEDETTE -->
+            <!-- VEDETTE -->
 
             <div class="options">
 
@@ -370,21 +254,16 @@
             </div>
 
 
-
             <!-- BOUTONS -->
 
             <div class="form-actions">
-
 
                 <button
                     type="submit"
                     class="primary-btn"
                 >
-
                     💾 Enregistrer
-
                 </button>
-
 
 
                 <button
@@ -392,32 +271,21 @@
                     id="cancelEdit"
                     class="secondary-btn hidden"
                 >
-
                     Annuler
-
                 </button>
 
-
             </div>
-
 
         </form>
 
     </section>
 
 
-
-    <!-- =================================================
-         LISTE DES PRODUITS
-    ================================================== -->
+    <!-- PRODUITS -->
 
     <section class="panel">
 
-
-        <div
-            class="panel-header products-header"
-        >
-
+        <div class="panel-header products-header">
 
             <div>
 
@@ -432,21 +300,14 @@
             </div>
 
 
-
-            <!-- RECHERCHE -->
-
             <input
                 id="searchProducts"
                 type="search"
                 placeholder="🔎 Rechercher..."
             >
 
-
         </div>
 
-
-
-        <!-- PRODUITS -->
 
         <div
             id="productsList"
@@ -454,24 +315,17 @@
         >
 
             <div class="loading">
-
-                Chargement...
-
+                Chargement des produits...
             </div>
 
         </div>
 
-
     </section>
-
 
 </main>
 
 
-
-<!-- =====================================================
-     MESSAGE TOAST
-===================================================== -->
+<!-- MESSAGE -->
 
 <div
     id="toast"
@@ -479,16 +333,7 @@
 ></div>
 
 
-
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
-<script
-    src="admin.js"
-></script>
-
+<script src="admin.js"></script>
 
 </body>
-
 </html>
