@@ -59,9 +59,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 // CATEGORIES
 // =====================================================
 
-async function loadCategories() {
-
-    console.log("Chargement des catégories...");
+async async function loadCategories() {
+    console.log("Catégories DOUC Business chargées.");
+}
 
     productCategory.innerHTML = `
         <option value="">
