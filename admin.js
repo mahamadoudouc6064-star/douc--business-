@@ -3,10 +3,6 @@
 // ADMINISTRATION
 // =====================================================
 
-// =====================================================
-// SUPABASE
-// =====================================================
-
 const SUPABASE_URL =
     "https://xkhavjhoeqtwpmolavdq.supabase.co";
 
@@ -24,52 +20,20 @@ const supabaseClient =
 // ELEMENTS
 // =====================================================
 
-const form =
-    document.getElementById("productForm");
-
-const productId =
-    document.getElementById("productId");
-
-const productName =
-    document.getElementById("productName");
-
-const productDescription =
-    document.getElementById("productDescription");
-
-const productPrice =
-    document.getElementById("productPrice");
-
-const productOldPrice =
-    document.getElementById("productOldPrice");
-
-const productCategory =
-    document.getElementById("productCategory");
-
-const productStock =
-    document.getElementById("productStock");
-
-const productImage =
-    document.getElementById("productImage");
-
-const productFeatured =
-    document.getElementById("productFeatured");
-
-const productsList =
-    document.getElementById("productsList");
-
-const searchProducts =
-    document.getElementById("searchProducts");
-
-const cancelEdit =
-    document.getElementById("cancelEdit");
-
-const formTitle =
-    document.getElementById("formTitle");
-
-
-// =====================================================
-// VARIABLES
-// =====================================================
+const form = document.getElementById("productForm");
+const productId = document.getElementById("productId");
+const productName = document.getElementById("productName");
+const productDescription = document.getElementById("productDescription");
+const productPrice = document.getElementById("productPrice");
+const productOldPrice = document.getElementById("productOldPrice");
+const productCategory = document.getElementById("productCategory");
+const productStock = document.getElementById("productStock");
+const productImage = document.getElementById("productImage");
+const productFeatured = document.getElementById("productFeatured");
+const productsList = document.getElementById("productsList");
+const searchProducts = document.getElementById("searchProducts");
+const cancelEdit = document.getElementById("cancelEdit");
+const formTitle = document.getElementById("formTitle");
 
 let allProducts = [];
 
@@ -78,22 +42,17 @@ let allProducts = [];
 // INITIALISATION
 // =====================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
+document.addEventListener("DOMContentLoaded", async () => {
 
-        console.log(
-            "DOUC BUSINESS 3.0 - Administration"
-        );
+    console.log("DOUC BUSINESS 3.0");
 
-        await loadCategories();
+    await loadCategories();
 
-        await loadProducts();
+    await loadProducts();
 
-        await loadOrdersCount();
+    await loadOrdersCount();
 
-    }
-);
+});
 
 
 // =====================================================
@@ -102,13 +61,11 @@ document.addEventListener(
 
 async function loadCategories() {
 
-    console.log(
-        "Chargement des catégories..."
-    );
+    console.log("Chargement des catégories...");
 
     productCategory.innerHTML = `
         <option value="">
-            Chargement des catégories...
+            Chargement...
         </option>
     `;
 
@@ -121,11 +78,10 @@ async function loadCategories() {
                 ascending: true
             });
 
-
     if (error) {
 
         console.error(
-            "Erreur catégories :",
+            "ERREUR CATEGORIES :",
             error
         );
 
@@ -136,25 +92,22 @@ async function loadCategories() {
         `;
 
         showToast(
-            "Erreur chargement catégories"
+            "Impossible de charger les catégories"
         );
 
         return;
     }
 
-
     console.log(
-        "Catégories reçues :",
+        "CATEGORIES :",
         data
     );
-
 
     productCategory.innerHTML = `
         <option value="">
             Sélectionner une catégorie
         </option>
     `;
-
 
     if (!data || data.length === 0) {
 
@@ -167,33 +120,26 @@ async function loadCategories() {
         return;
     }
 
+    data.forEach(category => {
 
-    data.forEach(
-        function (category) {
+        const option =
+            document.createElement("option");
 
-            const option =
-                document.createElement(
-                    "option"
-                );
+        option.value =
+            category.id;
 
-            option.value =
-                String(category.id);
+        option.textContent =
+            category.name;
 
-            option.textContent =
-                category.name;
+        productCategory.appendChild(option);
 
-            productCategory.appendChild(
-                option
-            );
-
-        }
-    );
+    });
 
 }
 
 
 // =====================================================
-// CHARGER LES PRODUITS
+// PRODUITS
 // =====================================================
 
 async function loadProducts() {
@@ -203,7 +149,6 @@ async function loadProducts() {
             Chargement des produits...
         </div>
     `;
-
 
     const { data, error } =
         await supabaseClient
@@ -219,21 +164,18 @@ async function loadProducts() {
                 ascending: false
             });
 
-
     if (error) {
 
         console.error(
-            "Erreur produits :",
+            "ERREUR PRODUITS :",
             error
         );
-
 
         productsList.innerHTML = `
             <div class="empty">
                 Impossible de charger les produits.
             </div>
         `;
-
 
         showToast(
             error.message
@@ -242,15 +184,12 @@ async function loadProducts() {
         return;
     }
 
-
     allProducts =
         data || [];
-
 
     renderProducts(
         allProducts
     );
-
 
     updateStats(
         allProducts
@@ -260,15 +199,12 @@ async function loadProducts() {
 
 
 // =====================================================
-// AFFICHER LES PRODUITS
+// AFFICHER PRODUITS
 // =====================================================
 
 function renderProducts(products) {
 
-    if (
-        !products ||
-        products.length === 0
-    ) {
+    if (!products.length) {
 
         productsList.innerHTML = `
             <div class="empty">
@@ -279,335 +215,232 @@ function renderProducts(products) {
         return;
     }
 
-
     productsList.innerHTML = "";
 
+    products.forEach(product => {
 
-    products.forEach(
-        function (product) {
+        const card =
+            document.createElement("div");
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+        card.className =
+            "product-card";
 
+        const image =
+            product.image_url ||
+            "https://placehold.co/300x300?text=DOUC";
 
-            card.className =
-                "product-card";
+        const category =
+            product.categories?.name ||
+            "Sans catégorie";
 
+        card.innerHTML = `
 
-            const image =
-                product.image_url ||
-                "https://placehold.co/300x300?text=DOUC";
+            <img
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(product.name)}"
+            >
 
+            <div class="product-info">
 
-            const category =
-                product.categories?.name ||
-                "Sans catégorie";
+                <h3>
+                    ${escapeHTML(product.name)}
+                </h3>
 
+                <p>
+                    ${escapeHTML(category)}
+                </p>
 
-            card.innerHTML = `
+                <div class="price">
+                    ${formatPrice(product.price)}
+                    FCFA
+                </div>
 
-                <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(product.name)}"
+                <div class="stock">
+                    Stock :
+                    ${Number(product.stock || 0)}
+                </div>
+
+                ${
+                    product.featured
+                    ? `
+                        <div class="featured">
+                            ⭐ Produit vedette
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    class="edit-btn"
+                    onclick="editProduct(${product.id})"
                 >
+                    ✏️ Modifier
+                </button>
 
-                <div class="product-info">
+                <button
+                    class="delete-btn"
+                    onclick="deleteProduct(${product.id})"
+                >
+                    🗑️ Supprimer
+                </button>
 
-                    <h3>
-                        ${escapeHTML(product.name)}
-                    </h3>
+            </div>
 
-                    <p>
-                        ${escapeHTML(category)}
-                    </p>
+        `;
 
-                    <div class="price">
-                        ${formatPrice(product.price)}
-                        FCFA
-                    </div>
+        productsList.appendChild(card);
 
-                    <div class="stock">
-                        Stock :
-                        ${Number(product.stock || 0)}
-                    </div>
-
-                    ${
-                        product.featured
-                        ? `
-                            <div class="featured">
-                                ⭐ Produit vedette
-                            </div>
-                        `
-                        : ""
-                    }
-
-                </div>
-
-                <div class="actions">
-
-                    <button
-                        class="edit-btn"
-                        onclick="editProduct(${product.id})"
-                    >
-                        ✏️ Modifier
-                    </button>
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteProduct(${product.id})"
-                    >
-                        🗑️ Supprimer
-                    </button>
-
-                </div>
-
-            `;
-
-
-            productsList.appendChild(
-                card
-            );
-
-        }
-    );
+    });
 
 }
 
 
 // =====================================================
-// AJOUTER / MODIFIER UN PRODUIT
+// AJOUT / MODIFICATION
 // =====================================================
 
-form.addEventListener(
-    "submit",
-    async function (event) {
+form.addEventListener("submit", async event => {
 
-        event.preventDefault();
+    event.preventDefault();
 
+    const id =
+        productId.value;
 
-        const id =
-            productId.value;
+    const product = {
 
+        name:
+            productName.value.trim(),
 
-        const name =
-            productName.value.trim();
+        description:
+            productDescription.value.trim() || null,
 
+        price:
+            Number(productPrice.value),
 
-        const description =
-            productDescription.value.trim();
-
-
-        const price =
-            Number(
-                productPrice.value
-            );
-
-
-        const oldPrice =
+        old_price:
             productOldPrice.value
-                ? Number(
-                    productOldPrice.value
-                )
-                : null;
+                ? Number(productOldPrice.value)
+                : null,
 
-
-        const categoryId =
+        category_id:
             productCategory.value
-                ? Number(
-                    productCategory.value
-                )
-                : null;
+                ? Number(productCategory.value)
+                : null,
+
+        stock:
+            Number(productStock.value),
+
+        image_url:
+            productImage.value.trim() || null,
+
+        featured:
+            productFeatured.checked,
+
+        is_active:
+            true
+
+    };
 
 
-        const stock =
-            Number(
-                productStock.value
-            );
-
-
-        const image =
-            productImage.value.trim();
-
-
-        const featured =
-            productFeatured.checked;
-
-
-        // ==============================
-        // VALIDATION
-        // ==============================
-
-        if (!name) {
-
-            showToast(
-                "Le nom du produit est obligatoire."
-            );
-
-            return;
-        }
-
-
-        if (
-            Number.isNaN(price) ||
-            price < 0
-        ) {
-
-            showToast(
-                "Le prix est invalide."
-            );
-
-            return;
-        }
-
-
-        if (
-            Number.isNaN(stock) ||
-            stock < 0
-        ) {
-
-            showToast(
-                "Le stock est invalide."
-            );
-
-            return;
-        }
-
-
-        // ==============================
-        // DONNEES
-        // ==============================
-
-        const product = {
-
-            name: name,
-
-            description:
-                description || null,
-
-            price: price,
-
-            old_price:
-                oldPrice,
-
-            category_id:
-                categoryId,
-
-            stock: stock,
-
-            image_url:
-                image || null,
-
-            featured:
-                featured,
-
-            is_active:
-                true
-
-        };
-
-
-        console.log(
-            "Produit à enregistrer :",
-            product
-        );
-
-
-        let result;
-
-
-        // ==============================
-        // MODIFICATION
-        // ==============================
-
-        if (id) {
-
-            result =
-                await supabaseClient
-                    .from("products")
-                    .update(product)
-                    .eq(
-                        "id",
-                        Number(id)
-                    );
-
-        }
-
-        // ==============================
-        // AJOUT
-        // ==============================
-
-        else {
-
-            result =
-                await supabaseClient
-                    .from("products")
-                    .insert([
-                        product
-                    ]);
-
-        }
-
-
-        // ==============================
-        // ERREUR
-        // ==============================
-
-        if (result.error) {
-
-            console.error(
-                "Erreur sauvegarde :",
-                result.error
-            );
-
-
-            showToast(
-                result.error.message
-            );
-
-            return;
-        }
-
-
-        // ==============================
-        // SUCCÈS
-        // ==============================
+    if (!product.name) {
 
         showToast(
-            id
-                ? "Produit modifié avec succès ✅"
-                : "Produit ajouté avec succès ✅"
+            "Le nom du produit est obligatoire."
         );
 
+        return;
+    }
 
-        resetForm();
+
+    if (product.price < 0) {
+
+        showToast(
+            "Prix invalide."
+        );
+
+        return;
+    }
 
 
-        await loadProducts();
+    if (product.stock < 0) {
+
+        showToast(
+            "Stock invalide."
+        );
+
+        return;
+    }
+
+
+    let result;
+
+
+    if (id) {
+
+        result =
+            await supabaseClient
+                .from("products")
+                .update(product)
+                .eq(
+                    "id",
+                    Number(id)
+                );
+
+    } else {
+
+        result =
+            await supabaseClient
+                .from("products")
+                .insert([
+                    product
+                ]);
 
     }
-);
+
+
+    if (result.error) {
+
+        console.error(
+            result.error
+        );
+
+        showToast(
+            result.error.message
+        );
+
+        return;
+    }
+
+
+    showToast(
+        id
+            ? "Produit modifié ✅"
+            : "Produit ajouté ✅"
+    );
+
+    resetForm();
+
+    await loadProducts();
+
+});
 
 
 // =====================================================
-// MODIFIER UN PRODUIT
+// MODIFIER
 // =====================================================
 
 window.editProduct =
-    async function (id) {
+    function(id) {
 
         const product =
             allProducts.find(
-                function (item) {
-
-                    return Number(
-                        item.id
-                    ) === Number(id);
-
-                }
+                item =>
+                    Number(item.id) === Number(id)
             );
-
 
         if (!product) {
 
@@ -618,57 +451,41 @@ window.editProduct =
             return;
         }
 
-
         productId.value =
             product.id;
-
 
         productName.value =
             product.name || "";
 
-
         productDescription.value =
             product.description || "";
-
 
         productPrice.value =
             product.price ?? "";
 
-
         productOldPrice.value =
             product.old_price ?? "";
 
-
         productCategory.value =
             product.category_id
-                ? String(
-                    product.category_id
-                )
+                ? String(product.category_id)
                 : "";
-
 
         productStock.value =
             product.stock ?? 0;
 
-
         productImage.value =
             product.image_url || "";
 
-
         productFeatured.checked =
-            Boolean(
-                product.featured
-            );
-
+            Boolean(product.featured);
 
         formTitle.textContent =
             "Modifier le produit";
 
-
         cancelEdit.classList.remove(
             "hidden"
         );
-
 
         window.scrollTo({
             top: 0,
@@ -679,23 +496,19 @@ window.editProduct =
 
 
 // =====================================================
-// SUPPRIMER UN PRODUIT
+// SUPPRIMER
 // =====================================================
 
 window.deleteProduct =
-    async function (id) {
+    async function(id) {
 
-        const confirmed =
-            confirm(
+        if (
+            !confirm(
                 "Voulez-vous vraiment supprimer ce produit ?"
-            );
-
-
-        if (!confirmed) {
-
+            )
+        ) {
             return;
         }
-
 
         const { error } =
             await supabaseClient
@@ -706,14 +519,9 @@ window.deleteProduct =
                     Number(id)
                 );
 
-
         if (error) {
 
-            console.error(
-                "Erreur suppression :",
-                error
-            );
-
+            console.error(error);
 
             showToast(
                 error.message
@@ -722,11 +530,9 @@ window.deleteProduct =
             return;
         }
 
-
         showToast(
-            "Produit supprimé avec succès ✅"
+            "Produit supprimé ✅"
         );
-
 
         await loadProducts();
 
@@ -734,7 +540,7 @@ window.deleteProduct =
 
 
 // =====================================================
-// ANNULER MODIFICATION
+// ANNULER
 // =====================================================
 
 cancelEdit.addEventListener(
@@ -747,18 +553,12 @@ function resetForm() {
 
     form.reset();
 
+    productId.value = "";
 
-    productId.value =
-        "";
-
-
-    productStock.value =
-        0;
-
+    productStock.value = 0;
 
     formTitle.textContent =
         "Ajouter un produit";
-
 
     cancelEdit.classList.add(
         "hidden"
@@ -773,52 +573,40 @@ function resetForm() {
 
 searchProducts.addEventListener(
     "input",
-    function (event) {
+    event => {
 
         const query =
             event.target.value
                 .toLowerCase()
                 .trim();
 
-
         const filtered =
-            allProducts.filter(
-                function (product) {
+            allProducts.filter(product => {
 
-                    const name =
-                        (
-                            product.name ||
-                            ""
-                        ).toLowerCase();
+                const name =
+                    (
+                        product.name || ""
+                    ).toLowerCase();
 
+                const description =
+                    (
+                        product.description || ""
+                    ).toLowerCase();
 
-                    const description =
-                        (
-                            product.description ||
-                            ""
-                        ).toLowerCase();
+                const category =
+                    (
+                        product.categories?.name || ""
+                    ).toLowerCase();
 
+                return (
+                    name.includes(query) ||
+                    description.includes(query) ||
+                    category.includes(query)
+                );
 
-                    const category =
-                        (
-                            product.categories?.name ||
-                            ""
-                        ).toLowerCase();
+            });
 
-
-                    return (
-                        name.includes(query) ||
-                        description.includes(query) ||
-                        category.includes(query)
-                    );
-
-                }
-            );
-
-
-        renderProducts(
-            filtered
-        );
+        renderProducts(filtered);
 
     }
 );
@@ -833,75 +621,33 @@ function updateStats(products) {
     const total =
         products.length;
 
-
     const stock =
         products.reduce(
-            function (sum, product) {
-
-                return (
-                    sum +
-                    Number(
-                        product.stock || 0
-                    )
-                );
-
-            },
+            (sum, product) =>
+                sum +
+                Number(
+                    product.stock || 0
+                ),
             0
         );
 
-
     const featured =
         products.filter(
-            function (product) {
-
-                return (
-                    product.featured === true
-                );
-
-            }
+            product =>
+                product.featured === true
         ).length;
 
+    document.getElementById(
+        "totalProducts"
+    ).textContent = total;
 
-    const totalProducts =
-        document.getElementById(
-            "totalProducts"
-        );
+    document.getElementById(
+        "totalStock"
+    ).textContent = stock;
 
-
-    const totalStock =
-        document.getElementById(
-            "totalStock"
-        );
-
-
-    const totalFeatured =
-        document.getElementById(
-            "totalFeatured"
-        );
-
-
-    if (totalProducts) {
-
-        totalProducts.textContent =
-            total;
-
-    }
-
-
-    if (totalStock) {
-
-        totalStock.textContent =
-            stock;
-
-    }
-
-
-    if (totalFeatured) {
-
-        totalFeatured.textContent =
-            featured;
-
-    }
+    document.getElementById(
+        "totalFeatured"
+    ).textContent = featured;
 
 }
 
@@ -912,17 +658,12 @@ function updateStats(products) {
 
 async function loadOrdersCount() {
 
-    const totalOrders =
+    const element =
         document.getElementById(
             "totalOrders"
         );
 
-
-    if (!totalOrders) {
-
-        return;
-    }
-
+    if (!element) return;
 
     const { count, error } =
         await supabaseClient
@@ -935,23 +676,20 @@ async function loadOrdersCount() {
                 }
             );
 
-
     if (error) {
 
         console.error(
-            "Erreur commandes :",
+            "ERREUR COMMANDES :",
             error
         );
 
-
-        totalOrders.textContent =
+        element.textContent =
             "0";
 
         return;
     }
 
-
-    totalOrders.textContent =
+    element.textContent =
         count || 0;
 
 }
@@ -973,7 +711,7 @@ function formatPrice(price) {
 
 
 // =====================================================
-// SECURITE HTML
+// SECURITE
 // =====================================================
 
 function escapeHTML(value) {
@@ -981,32 +719,17 @@ function escapeHTML(value) {
     return String(
         value ?? ""
     )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
 
 // =====================================================
-// MESSAGE
+// TOAST
 // =====================================================
 
 function showToast(message) {
@@ -1016,7 +739,6 @@ function showToast(message) {
             "toast"
         );
 
-
     if (!toast) {
 
         alert(message);
@@ -1024,25 +746,19 @@ function showToast(message) {
         return;
     }
 
-
     toast.textContent =
         message;
-
 
     toast.classList.add(
         "show"
     );
 
+    setTimeout(() => {
 
-    setTimeout(
-        function () {
+        toast.classList.remove(
+            "show"
+        );
 
-            toast.classList.remove(
-                "show"
-            );
-
-        },
-        3000
-    );
+    }, 3000);
 
 }
