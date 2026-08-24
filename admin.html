@@ -14,7 +14,6 @@
 <body>
 
 <header class="topbar">
-
     <div class="brand">
         <span>DOUC</span>
         <small>BUSINESS 3.0</small>
@@ -23,13 +22,9 @@
     <div class="admin-title">
         Tableau de bord
     </div>
-
 </header>
 
-
 <main class="dashboard">
-
-    <!-- STATISTIQUES -->
 
     <section class="stats">
 
@@ -55,72 +50,40 @@
 
     </section>
 
-
-    <!-- FORMULAIRE -->
-
     <section class="panel">
 
         <div class="panel-header">
-
             <div>
-                <h2 id="formTitle">
-                    Ajouter un produit
-                </h2>
-
-                <p>
-                    Gérez les produits de votre boutique.
-                </p>
+                <h2 id="formTitle">Ajouter un produit</h2>
+                <p>Gérez les produits de votre boutique.</p>
             </div>
-
         </div>
-
 
         <form id="productForm">
 
             <input type="hidden" id="productId">
 
-
             <div class="form-grid">
 
                 <div class="field">
-
-                    <label>
-                        Nom du produit
-                    </label>
-
+                    <label for="productName">Nom du produit</label>
                     <input
                         id="productName"
                         type="text"
                         placeholder="Ex : T-shirt Premium"
                         required
                     >
-
                 </div>
 
-
                 <div class="field">
-
-                    <label>
-                        Catégorie
-                    </label>
-
-                    <select id="productCategory">
-
-                        <option value="">
-                            Sélectionner
-                        </option>
-
+                    <label for="productCategory">Catégorie</label>
+                    <select id="productCategory" required>
+                        <option value="">Sélectionner</option>
                     </select>
-
                 </div>
 
-
                 <div class="field">
-
-                    <label>
-                        Prix (FCFA)
-                    </label>
-
+                    <label for="productPrice">Prix (FCFA)</label>
                     <input
                         id="productPrice"
                         type="number"
@@ -128,32 +91,20 @@
                         placeholder="15000"
                         required
                     >
-
                 </div>
 
-
                 <div class="field">
-
-                    <label>
-                        Ancien prix (FCFA)
-                    </label>
-
+                    <label for="productOldPrice">Ancien prix (FCFA)</label>
                     <input
                         id="productOldPrice"
                         type="number"
                         min="0"
                         placeholder="20000"
                     >
-
                 </div>
 
-
                 <div class="field">
-
-                    <label>
-                        Stock
-                    </label>
-
+                    <label for="productStock">Stock</label>
                     <input
                         id="productStock"
                         type="number"
@@ -161,54 +112,36 @@
                         value="0"
                         required
                     >
-
                 </div>
 
-
                 <div class="field">
-
-                    <label>
-                        Image URL
-                    </label>
-
+                    <label for="productImage">Image URL</label>
                     <input
                         id="productImage"
                         type="url"
                         placeholder="https://..."
                     >
-
                 </div>
 
             </div>
 
-
             <div class="field">
-
-                <label>
-                    Description
-                </label>
-
+                <label for="productDescription">Description</label>
                 <textarea
                     id="productDescription"
                     placeholder="Description du produit..."
                 ></textarea>
-
             </div>
 
-
             <div class="options">
-
                 <label>
                     <input
                         type="checkbox"
                         id="productFeatured"
                     >
-
                     Produit vedette ⭐
                 </label>
-
             </div>
-
 
             <div class="form-actions">
 
@@ -233,25 +166,14 @@
 
     </section>
 
-
-    <!-- PRODUITS -->
-
     <section class="panel">
 
         <div class="panel-header products-header">
 
             <div>
-
-                <h2>
-                    Produits
-                </h2>
-
-                <p>
-                    Tous les produits de votre boutique.
-                </p>
-
+                <h2>Produits</h2>
+                <p>Tous les produits de votre boutique.</p>
             </div>
-
 
             <input
                 id="searchProducts"
@@ -261,28 +183,20 @@
 
         </div>
 
-
         <div
             id="productsList"
             class="products-list"
         >
-
             <div class="loading">
                 Chargement...
             </div>
-
         </div>
 
     </section>
 
 </main>
 
-
-<div
-    id="toast"
-    class="toast"
-></div>
-
+<div id="toast" class="toast"></div>
 
 <script src="admin.js"></script>
 
