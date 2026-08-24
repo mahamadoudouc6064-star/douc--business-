@@ -14,7 +14,6 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_fYJOpPXAQcQOkVXmuGpoYw_fnt3WqVi";
 
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
@@ -85,8 +84,10 @@ document.addEventListener(
     async function () {
 
         console.log(
-            "DOUC BUSINESS 3.0 - ADMIN"
+            "DOUC BUSINESS 3.0 - ADMINISTRATION"
         );
+
+        await loadCategories();
 
         await loadProducts();
 
@@ -97,10 +98,133 @@ document.addEventListener(
 
 
 // =====================================================
-// PRODUITS
+// CATEGORIES
 // =====================================================
 
-async function loadcategories() {
+async function loadCategories() {
+
+    console.log(
+        "Chargement des catégories..."
+    );
+
+
+    productCategory.innerHTML = `
+        <option value="">
+            Chargement des catégories...
+        </option>
+    `;
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("categories")
+            .select(
+                "id,name,is_active"
+            )
+            .eq(
+                "is_active",
+                true
+            )
+            .order(
+                "id",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "ERREUR CATEGORIES :",
+            error
+        );
+
+
+        productCategory.innerHTML = `
+            <option value="">
+                Erreur de chargement
+            </option>
+        `;
+
+
+        showToast(
+            "Erreur catégories : " +
+            error.message
+        );
+
+
+        return;
+    }
+
+
+    console.log(
+        "CATEGORIES RECUES :",
+        data
+    );
+
+
+    productCategory.innerHTML = `
+        <option value="">
+            Sélectionner une catégorie
+        </option>
+    `;
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        productCategory.innerHTML += `
+            <option value="">
+                Aucune catégorie disponible
+            </option>
+        `;
+
+        return;
+    }
+
+
+    data.forEach(
+        function (category) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                String(
+                    category.id
+                );
+
+
+            option.textContent =
+                category.name;
+
+
+            productCategory.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// CHARGER LES PRODUITS
+// =====================================================
+
+async function loadProducts() {
+
+    console.log(
+        "Chargement des produits..."
+    );
+
 
     productsList.innerHTML = `
         <div class="loading">
@@ -111,9 +235,7 @@ async function loadcategories() {
 
     const { data, error } =
         await supabaseClient
-
             .from("products")
-
             .select(`
                 *,
                 categories (
@@ -121,7 +243,6 @@ async function loadcategories() {
                     name
                 )
             `)
-
             .order(
                 "created_at",
                 {
@@ -142,14 +263,18 @@ async function loadcategories() {
             <div class="empty">
                 Impossible de charger les produits.
                 <br><br>
-                ${escapeHTML(error.message)}
+                ${escapeHTML(
+                    error.message
+                )}
             </div>
         `;
 
 
         showToast(
-            "Erreur chargement produits"
+            "Erreur produits : " +
+            error.message
         );
+
 
         return;
     }
@@ -157,6 +282,12 @@ async function loadcategories() {
 
     allProducts =
         data || [];
+
+
+    console.log(
+        "PRODUITS RECUS :",
+        allProducts
+    );
 
 
     renderProducts(
@@ -172,10 +303,12 @@ async function loadcategories() {
 
 
 // =====================================================
-// AFFICHER PRODUITS
+// AFFICHER LES PRODUITS
 // =====================================================
 
-function renderProducts(products) {
+function renderProducts(
+    products
+) {
 
     if (
         !products ||
@@ -221,26 +354,39 @@ function renderProducts(products) {
             card.innerHTML = `
 
                 <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(product.name)}"
+                    src="${escapeHTML(
+                        image
+                    )}"
+                    alt="${escapeHTML(
+                        product.name
+                    )}"
                 >
 
 
                 <div class="product-info">
 
                     <h3>
-                        ${escapeHTML(product.name)}
+                        ${escapeHTML(
+                            product.name
+                        )}
                     </h3>
 
 
                     <p>
-                        ${escapeHTML(category)}
+                        ${escapeHTML(
+                            category
+                        )}
                     </p>
 
 
                     <div class="price">
-                        ${formatPrice(product.price)}
+
+                        ${formatPrice(
+                            product.price
+                        )}
+
                         FCFA
+
                     </div>
 
 
@@ -248,9 +394,15 @@ function renderProducts(products) {
                         product.old_price
                         ? `
                             <div class="old-price">
+
                                 Ancien prix :
-                                ${formatPrice(product.old_price)}
+
+                                ${formatPrice(
+                                    product.old_price
+                                )}
+
                                 FCFA
+
                             </div>
                         `
                         : ""
@@ -260,7 +412,10 @@ function renderProducts(products) {
                     <div class="stock">
 
                         Stock :
-                        ${Number(product.stock || 0)}
+
+                        ${Number(
+                            product.stock || 0
+                        )}
 
                     </div>
 
@@ -311,7 +466,7 @@ function renderProducts(products) {
 
 
 // =====================================================
-// AJOUTER / MODIFIER
+// AJOUTER / MODIFIER UN PRODUIT
 // =====================================================
 
 form.addEventListener(
@@ -420,7 +575,7 @@ form.addEventListener(
 
 
         // =================================================
-        // DONNEES
+        // DONNEES PRODUIT
         // =================================================
 
         const product = {
@@ -456,7 +611,7 @@ form.addEventListener(
 
 
         console.log(
-            "Produit :",
+            "PRODUIT A ENREGISTRER :",
             product
         );
 
@@ -472,11 +627,10 @@ form.addEventListener(
 
             result =
                 await supabaseClient
-
                     .from("products")
-
-                    .update(product)
-
+                    .update(
+                        product
+                    )
                     .eq(
                         "id",
                         Number(id)
@@ -493,9 +647,7 @@ form.addEventListener(
 
             result =
                 await supabaseClient
-
                     .from("products")
-
                     .insert([
                         product
                     ]);
@@ -516,15 +668,17 @@ form.addEventListener(
 
 
             showToast(
+                "Erreur : " +
                 result.error.message
             );
+
 
             return;
         }
 
 
         // =================================================
-        // SUCCÈS
+        // SUCCES
         // =================================================
 
         showToast(
@@ -544,7 +698,7 @@ form.addEventListener(
 
 
 // =====================================================
-// MODIFIER PRODUIT
+// MODIFIER UN PRODUIT
 // =====================================================
 
 window.editProduct =
@@ -555,7 +709,9 @@ window.editProduct =
                 function (item) {
 
                     return (
-                        Number(item.id) ===
+                        Number(
+                            item.id
+                        ) ===
                         Number(id)
                     );
 
@@ -633,7 +789,7 @@ window.editProduct =
 
 
 // =====================================================
-// SUPPRIMER PRODUIT
+// SUPPRIMER UN PRODUIT
 // =====================================================
 
 window.deleteProduct =
@@ -653,11 +809,8 @@ window.deleteProduct =
 
         const { error } =
             await supabaseClient
-
                 .from("products")
-
                 .delete()
-
                 .eq(
                     "id",
                     Number(id)
@@ -673,8 +826,10 @@ window.deleteProduct =
 
 
             showToast(
+                "Erreur : " +
                 error.message
             );
+
 
             return;
         }
@@ -691,7 +846,7 @@ window.deleteProduct =
 
 
 // =====================================================
-// ANNULER
+// ANNULER LA MODIFICATION
 // =====================================================
 
 cancelEdit.addEventListener(
@@ -765,11 +920,21 @@ searchProducts.addEventListener(
 
                     return (
 
-                        name.includes(query) ||
+                        name.includes(
+                            query
+                        )
 
-                        description.includes(query) ||
+                        ||
 
-                        category.includes(query)
+                        description.includes(
+                            query
+                        )
+
+                        ||
+
+                        category.includes(
+                            query
+                        )
 
                     );
 
@@ -789,7 +954,9 @@ searchProducts.addEventListener(
 // STATISTIQUES
 // =====================================================
 
-function updateStats(products) {
+function updateStats(
+    products
+) {
 
     const total =
         products.length;
@@ -797,7 +964,10 @@ function updateStats(products) {
 
     const stock =
         products.reduce(
-            function (sum, product) {
+            function (
+                sum,
+                product
+            ) {
 
                 return (
                     sum +
@@ -813,7 +983,9 @@ function updateStats(products) {
 
     const featured =
         products.filter(
-            function (product) {
+            function (
+                product
+            ) {
 
                 return (
                     product.featured === true
@@ -887,9 +1059,7 @@ async function loadOrdersCount() {
 
     const { count, error } =
         await supabaseClient
-
             .from("orders")
-
             .select(
                 "id",
                 {
@@ -910,6 +1080,7 @@ async function loadOrdersCount() {
         element.textContent =
             "0";
 
+
         return;
     }
 
@@ -924,7 +1095,9 @@ async function loadOrdersCount() {
 // FORMAT PRIX
 // =====================================================
 
-function formatPrice(price) {
+function formatPrice(
+    price
+) {
 
     return Number(
         price || 0
@@ -939,7 +1112,9 @@ function formatPrice(price) {
 // SECURITE HTML
 // =====================================================
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
     return String(
         value ?? ""
@@ -969,10 +1144,12 @@ function escapeHTML(value) {
 
 
 // =====================================================
-// MESSAGE
+// MESSAGE TOAST
 // =====================================================
 
-function showToast(message) {
+function showToast(
+    message
+) {
 
     const toast =
         document.getElementById(
